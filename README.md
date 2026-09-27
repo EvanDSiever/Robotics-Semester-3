@@ -45,16 +45,31 @@ The firmware bridges fundamental linear algebra and classical mechanics:
 >   5. **MANDATORY COMMON GROUND**: Run a jumper wire from that **Blue/Black (-) breadboard ground rail** to any **`GND` pin on the Arduino Uno**. Without this shared ground, the PWM signals have no reference voltage and the servos will twitch erratically or fail to respond.
 >   6. The Arduino Uno itself is powered safely through the USB cable connected to your laptop.
 
-### Pin Assignment Summary
+### 2.1 Complete Pin Assignments & Wiring Tables
 
-| Joint / Actuator | Mechanical Function | Arduino Uno PWM Pin | Range of Motion | Home Position |
-| :--- | :--- | :--- | :--- | :--- |
-| **Base Joint (Yaw)** | Rotates the entire arm structure horizontally | **Digital Pin 9** | $0^\circ \text{ to } 180^\circ$ | $90^\circ$ (Forward, $+X$) |
-| **Shoulder Joint** | Pitch elevation of the upper arm link | **Digital Pin 3** | $15^\circ \text{ to } 165^\circ$ | $90^\circ$ |
-| **Elbow Joint** | Pitch elevation of the forearm link | **Digital Pin 11** | $15^\circ \text{ to } 165^\circ$ | $90^\circ$ |
-| **Clamp / Gripper** | End-Effector grasping mechanism | **Digital Pin 5** | $30^\circ \text{ (Closed)} - 100^\circ \text{ (Open)}$ | $100^\circ$ (Open) |
+#### A. Servo Signal Connections (PWM Digital Pins)
+| Joint / Actuator | Servo Wire Color | Arduino Uno Pin | Angular Limits | Calibrated Home | Description |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Base Joint (Yaw)** | Orange / Yellow | **Digital Pin 9** (PWM) | $0^\circ \text{ to } 180^\circ$ | $90^\circ$ | Rotates the entire arm horizontally ($+X$ axis at $90^\circ$) |
+| **Shoulder Joint** | Orange / Yellow | **Digital Pin 3** (PWM) | $15^\circ \text{ to } 165^\circ$ | $90^\circ$ | Pitch elevation of Link 2 (Upper Arm) |
+| **Elbow Joint** | Orange / Yellow | **Digital Pin 11** (PWM) | $15^\circ \text{ to } 165^\circ$ | $90^\circ$ | Pitch elevation of Link 3 (Forearm) |
+| **Clamp / Gripper** | Orange / Yellow | **Digital Pin 5** (PWM) | $30^\circ \text{ to } 100^\circ$ | $100^\circ$ (Open) | End-Effector clamp ($30^\circ$ Closed, $100^\circ$ Open) |
+
+#### B. Power & Ground Distribution (External 5V 2A Supply)
+| Device / Line | Wire Color | Connected To | Function / Notes |
+| :--- | :--- | :--- | :--- |
+| **External 5V 2A Adapter** | Red / $(+)$ | **Breadboard Red Rail (+)** | Delivers high current required by the 4 motors |
+| **External 5V 2A Adapter** | Black / $(-)$ | **Breadboard Blue Rail (-)** | Power supply ground return line |
+| **Base Servo Power** | Red (Center) | **Breadboard Red Rail (+)** | 5V Power for Base motor |
+| **Shoulder Servo Power** | Red (Center) | **Breadboard Red Rail (+)** | 5V Power for Shoulder motor |
+| **Elbow Servo Power** | Red (Center) | **Breadboard Red Rail (+)** | 5V Power for Elbow motor |
+| **Clamp Servo Power** | Red (Center) | **Breadboard Red Rail (+)** | 5V Power for Clamp motor |
+| **All 4 Servos Ground** | Brown / Black | **Breadboard Blue Rail (-)** | Common ground for all 4 servos |
+| **Arduino Common Ground** | Jumper Wire | **Breadboard Blue Rail (-)** $\longleftrightarrow$ **Arduino `GND` Pin** | **MANDATORY**: References PWM logic voltages to ground |
+| **Arduino Uno Logic** | USB Cable | **Laptop USB Port** | Powers ATmega328P chip and enables Serial communication |
 
 ---
+
 
 ## 3. Robotics Kinematics Theory
 
